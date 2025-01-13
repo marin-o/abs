@@ -140,4 +140,4 @@ cython_debug/
 checkpoints/
 roms/
 *.zip
-.bk2
+*.bk2
