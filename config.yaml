@@ -1,0 +1,15 @@
+training_steps: 100000
+num_envs: 8
+training_env: "merge-v0"
+testing_env: "merge-v0"
+policy: "CnnPolicy"
+name_additional_tag: null
+
+config:
+  observation:
+    type: "GrayscaleObservation"
+    observation_shape: !!python/tuple [128, 64]
+    stack_size: 4
+    weights: [0.2989, 0.5870, 0.1140]
+    scaling: 1.75
+  policy_frequency: 2

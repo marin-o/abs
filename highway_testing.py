@@ -12,8 +12,25 @@ training_steps = 1_000_000
 # Number of parallel environments
 num_envs = 8
 
+env_name = "merge-v0"
+
+
 # Config for grayscale observation
 config = {
+    "observation": {
+        "type": "GrayscaleObservation",
+        "observation_shape": (128, 64),  # Resolution
+        "stack_size": 4,                 # Stacked frames
+        "weights": [0.2989, 0.5870, 0.1140],  # RGB to grayscale weights
+        "scaling": 1.75,                 # Scaling factor
+    },
+    "policy_frequency": 2
+}
+
+discrete_config = {
+    "action": {
+        "type": "DiscreteAction"
+    },
     "observation": {
         "type": "GrayscaleObservation",
         "observation_shape": (128, 64),  # Resolution
@@ -30,9 +47,9 @@ def make_env(env_id, config):
         return gymnasium.make(env_id, config=config)
     return _init
 
-def test_model(model_path, model_class, env_config, test_duration=60):
+def test_model(model_path, model_class, env_config, test_duration=20):
         print(f"Testing model from {model_path}...")
-        env = gymnasium.make("highway-fast-v0", config=env_config, render_mode="human")
+        env = gymnasium.make(env_name, config=env_config, render_mode="human")
         model = model_class.load(model_path)
         start_time = time.time()
         while time.time() - start_time < test_duration:
@@ -49,10 +66,10 @@ if __name__ == "__main__":
     # --- Test Saved Model ---
     
     # Test PPO model
-    test_model("highway_ppo/model", PPO, config)
+    # test_model(f"highway_ppo_{env_name}/model", PPO, config)
 
     # Test A2C model
-    test_model("highway_a2c/model", A2C, config)
+    test_model(f"models/PPO_merge-v0/model_CnnPolicy.zip", A2C, config)
 
     # Test DQN model
-    test_model("highway_dqn/model", QRDQN, config)
+    # test_model(f"highway_dqn_{env_name}/model", QRDQN, discrete_config)
