@@ -27,8 +27,10 @@ def make_env(env_id, config):
     return _init
 
 import os
+import statistics
+from torch.utils.tensorboard import SummaryWriter
 
-def train_and_evaluate(model_class, algo_name, policy, env_config, name_additional_tag=None, **model_kwargs):
+def train_and_evaluate(model_class, algo_name, policy, env_config, name_additional_tag=None, tensorboard=True, **model_kwargs):
     print(f"Training {algo_name}...")
 
     env = SubprocVecEnv([make_env(training_env, env_config) for _ in range(num_envs)])
@@ -41,17 +43,27 @@ def train_and_evaluate(model_class, algo_name, policy, env_config, name_addition
         log_dir += f"_{name_additional_tag}"
         model_save_path += f"_{name_additional_tag}"
 
-    model = model_class(policy, env, tensorboard_log=log_dir, verbose=1, **model_kwargs)
+    if tensorboard:
+        model = model_class(policy, env, tensorboard_log=log_dir, verbose=1, **model_kwargs)
+    else:
+        model = model_class(policy, env, verbose=1, **model_kwargs)
+
     model.learn(training_steps, log_interval=10)
     model.save(model_save_path)
     
+    if tensorboard:
+        sb3_log_dir = model.logger.dir
+        writer = SummaryWriter(sb3_log_dir)
+
     env.close()
     del model
     torch.cuda.empty_cache()
 
     model = model_class.load(model_save_path)
     eval_env = Monitor(gymnasium.make(testing_env, config=env_config))
-    mean_reward, std_reward = evaluate_policy(model, eval_env, n_eval_episodes=10)
+    rewards, episode_lengths = evaluate_policy(model, eval_env, n_eval_episodes=10, return_episode_rewards=True)
+    
+    mean_reward, std_reward = statistics.mean(rewards), statistics.stdev(rewards)
     
     print(f"Testing environment: {testing_env}")
     print("Results:")
@@ -61,7 +73,12 @@ def train_and_evaluate(model_class, algo_name, policy, env_config, name_addition
     with open(results_file, "a") as f:
         f.write(f"{algo_name} - {policy} Mean Reward: {mean_reward:.2f} ± {std_reward:.2f}\n")
 
-    env.close()
+    if tensorboard:
+        for i, reward in enumerate(rewards):
+            writer.add_scalar('Evaluation/Episode Reward', reward, i)
+        writer.close()
+
+    eval_env.close()
     del model
     torch.cuda.empty_cache()
 
@@ -71,7 +88,8 @@ def train_and_evaluate(model_class, algo_name, policy, env_config, name_addition
 
 def evaluate_model(model, env_id, num_episodes):
     env = gymnasium.make(env_id, config=env_config)
-    mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=num_episodes)
+    rewards = evaluate_policy(model, env, n_eval_episodes=num_episodes, return_episode_rewards=True)
+    mean_reward, std_reward = statistics.mean(rewards), statistics.stdev(rewards)
     print(f"Evaluation results for {env_id}:")
     print(f"Mean Reward: {mean_reward} ± {std_reward}")
-    return mean_reward
+    return rewards

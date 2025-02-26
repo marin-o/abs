@@ -1,9 +1,9 @@
 training_steps: 100000
 num_envs: 8
-training_env: "merge-v0"
+training_env: "highway-fast-v0"
 testing_env: "merge-v0"
 policy: "CnnPolicy"
-name_additional_tag: null
+name_additional_tag: "merge"
 
 config:
   observation:
