@@ -15,29 +15,6 @@ from skopt.space import Real, Categorical
 LOG_FILE = "best_params_log.json"
 
 
-def save_intermediate_results(model_name, res):
-    """Save the best parameters so far to a log file."""
-    best_params = {
-        "model_name": model_name,
-        "learning_rate": res.x[0],
-        "gamma": res.x[1],
-    }
-    
-    if model_name == "A2C":
-        best_params["use_rms_prop"] = bool(res.x[2])
-
-    # Load existing logs if present
-    if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r") as f:
-            log_data = json.load(f)
-    else:
-        log_data = {}
-
-    # Update and save
-    log_data[model_name] = best_params
-    with open(LOG_FILE, "w") as f:
-        json.dump(log_data, f, indent=4)
-
 
 def optimize_hyperparameters(model_class, model_name, policy, env_config, name_additional_tag):
     def objective(params):
@@ -76,9 +53,6 @@ def optimize_hyperparameters(model_class, model_name, policy, env_config, name_a
 
     res = gp_minimize(objective, search_space, n_calls=CONFIG['optim']['n_calls'], random_state=0)
 
-    # Save intermediate results
-    save_intermediate_results(model_name, res)
-
     return res
 
 
@@ -98,7 +72,7 @@ def log_best_params(model_name, res):
 
 
 if __name__ == "__main__":
-    for model_class, model_name in [(A2C, "A2C"), (PPO, "PPO"), (QRDQN, "QRDQN")]:
+    for model_class, model_name in [(PPO, "PPO")]: #  ,(A2C, "A2C") , (QRDQN, "QRDQN")
         res = optimize_hyperparameters(model_class, model_name, CONFIG["policy"], CONFIG["config"], CONFIG["name_additional_tag"])
         print(f"Best hyperparameters for {model_name}: Learning Rate: {res.x[0]}, Gamma: {res.x[1]}")
 
