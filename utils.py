@@ -7,6 +7,7 @@ from stable_baselines3.common.vec_env import SubprocVecEnv
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.evaluation import evaluate_policy
 import highway_env
+import gc
 
 
 from config import CONFIG
@@ -57,6 +58,7 @@ def train_and_evaluate(model_class, algo_name, policy, env_config, name_addition
 
     env.close()
     del model
+    gc.collect()
     torch.cuda.empty_cache()
 
     model = model_class.load(model_save_path)

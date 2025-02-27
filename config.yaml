@@ -13,3 +13,6 @@ config:
     weights: [0.2989, 0.5870, 0.1140]
     scaling: 1.75
   policy_frequency: 2
+
+optim:
+  n_calls: 50
