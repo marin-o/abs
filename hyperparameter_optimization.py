@@ -34,7 +34,7 @@ def optimize_hyperparameters(model_class, model_name, policy, env_config, name_a
         if model_class == PPO:
             train_kwargs.update({"batch_size": 64, "n_steps": 128})
         elif model_class == QRDQN:
-            train_kwargs.update({"batch_size": 64, "buffer_size": 50000})
+            train_kwargs.update({"batch_size": 64, "buffer_size": 40000})
         elif model_class == A2C:
             train_kwargs["use_rms_prop"] = use_rms_prop
 
@@ -72,7 +72,7 @@ def log_best_params(model_name, res):
 
 
 if __name__ == "__main__":
-    for model_class, model_name in [(PPO, "PPO")]: #  ,(A2C, "A2C") , (QRDQN, "QRDQN")
+    for model_class, model_name in [(QRDQN, "QRDQN")]: #  ,(A2C, "A2C") , (PPO, "PPO")
         res = optimize_hyperparameters(model_class, model_name, CONFIG["policy"], CONFIG["config"], CONFIG["name_additional_tag"])
         print(f"Best hyperparameters for {model_name}: Learning Rate: {res.x[0]}, Gamma: {res.x[1]}")
 
