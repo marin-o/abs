@@ -15,14 +15,14 @@ name_additional_tag = CONFIG["name_additional_tag"]
 if __name__ == "__main__":
     # --- Train A2C ---
     train_and_evaluate(A2C, "A2C", policy, env_config,
-                       learning_rate=4.709325353664891e-05, gamma=0.9621552458705358, use_rms_prop=True, n_steps=64, name_additional_tag=name_additional_tag)
+                       learning_rate=2.636649136037838e-05, gamma=0.9731473644133288, use_rms_prop=True, n_steps=64, name_additional_tag=name_additional_tag)
 
     # --- Train PPO ---
     train_and_evaluate(PPO, "PPO", policy, env_config,
-                       learning_rate=0.003748321662847933, gamma=0.968603096018041, n_steps=128, batch_size=64, name_additional_tag=name_additional_tag)
+                       learning_rate=0.0007367621291727883, gamma=0.8767554461108283, n_steps=128, batch_size=64, name_additional_tag=name_additional_tag)
 
     # --- Train QRDQN ---
     train_and_evaluate(QRDQN, "QRDQN", policy, env_config,
-                       learning_rate=0.01, gamma=0.8999748564089545, batch_size=64, buffer_size=50_000, name_additional_tag=name_additional_tag)
+                       learning_rate=0.0038266681214948494, gamma=0.9909387213546997, batch_size=64, buffer_size=50_000, name_additional_tag=name_additional_tag)
 
     print("All models trained and saved successfully!")
