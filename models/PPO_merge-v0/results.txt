@@ -1,0 +1,5 @@
+PPO - CnnPolicy Mean Reward: 29.69 ± 1.11
+PPO - CnnPolicy Mean Reward: 30.74 ± 2.08
+PPO - CnnPolicy Mean Reward: 28.96 ± 2.50
+PPO - CnnPolicy Mean Reward: 29.93 ± 2.59
+PPO - CnnPolicy Mean Reward: 30.58 ± 1.41

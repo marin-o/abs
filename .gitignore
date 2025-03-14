@@ -1,4 +1,4 @@
-models/
+# models/
 
 # Default Python .gitignore
 
@@ -141,5 +141,4 @@ cython_debug/
 # Custom additions
 checkpoints/
 roms/
-*.zip
 *.bk2

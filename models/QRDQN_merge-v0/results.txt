@@ -1,0 +1,5 @@
+QRDQN - CnnPolicy Mean Reward: 21.48 ± 5.53
+QRDQN - CnnPolicy Mean Reward: 22.32 ± 7.94
+QRDQN - CnnPolicy Mean Reward: 12.47 ± 2.66
+QRDQN - CnnPolicy Mean Reward: 11.29 ± 3.37
+QRDQN - CnnPolicy Mean Reward: 16.42 ± 8.39

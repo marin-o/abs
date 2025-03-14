@@ -1,0 +1,5 @@
+A2C - CnnPolicy Mean Reward: 29.78 ± 2.24
+A2C - CnnPolicy Mean Reward: 29.01 ± 2.53
+A2C - CnnPolicy Mean Reward: 28.93 ± 2.59
+A2C - CnnPolicy Mean Reward: 29.93 ± 2.59
+A2C - CnnPolicy Mean Reward: 28.43 ± 2.42
