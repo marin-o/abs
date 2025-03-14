@@ -1,0 +1,19 @@
+Configuration,Average Value
+A2C_highway-fast-v0,42.89706373214722
+A2C_highway-fast-v0_merge,29.512238883972167
+A2C_highway-fast-v0_merge_optimized,29.012162590026854
+A2C_highway-fast-v0_optimized,56.63744430541992
+A2C_merge-v0,28.426306533813477
+A2C_merge-v0_optimized,No Data
+PPO_highway-fast-v0,30.971046459674834
+PPO_highway-fast-v0_merge,21.536685132980345
+PPO_highway-fast-v0_merge_optimized,13.2056134223938
+PPO_highway-fast-v0_optimized,48.46135315895081
+PPO_merge-v0,30.576362991333006
+PPO_merge-v0_optimized,No Data
+QRDQN_highway-fast-v0,31.939732551574707
+QRDQN_highway-fast-v0_merge,19.55194773674011
+QRDQN_highway-fast-v0_merge_optimized,11.65699405670166
+QRDQN_highway-fast-v0_optimized,56.4596664428711
+QRDQN_merge-v0,16.41774082183838
+QRDQN_merge-v0_optimized,No Data
